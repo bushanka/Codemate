@@ -6,7 +6,7 @@ import json
 import ast
 import astor
 
-class Composer:
+class Composer():
     """Должен брать всех агентов в нужной последовательности в зависимости от типа: 1 файл или zip (проект)
     и execut'ить их код, получать отчеты, сохранять и потом составлять финальный отчет агентом для финального отчета
     """
@@ -15,7 +15,8 @@ class Composer:
         self._tree_analyser = TreeAnalyzerAgent()
         self._tree_split = TreeSplitAgent()
     
-    def create_report(self, _path: str) ->str:
+    # analyze architecture
+    def create_report_for_project(self, _path: str) ->str:
         final_report = ""
 
         # get overall architecture prediction
@@ -41,7 +42,7 @@ class Composer:
                         )
                     if architecture_code_analyzer_response != "":
                         final_report += architecture_code_analyzer_response + "\n"
-                        
+
         return final_report
                 
 

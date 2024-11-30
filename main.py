@@ -1,9 +1,13 @@
 import io
 from zipfile import ZipFile
+import os
+import shutil
 
 from settings import settings
 from telebot import TeleBot
+from .codemate.application.composer import Composer
 
+PATH_TO_SAVE_PROJECTS = "/home/root/hack_projects/"
 
 def create_report(report_path, contents):
     # Для создания файла репорта, можно править для ваших потребностей
@@ -22,15 +26,16 @@ def process_file(file) -> str:
 
 # Функция для обработки архивов
 def process_archive(zip_file):
-    with ZipFile(io.BytesIO(zip_file), 'r') as archive:
-        for file in archive.namelist():
-            with archive.open(file) as nested_file:
-                file_contents = nested_file.readlines()
-                # Здесь должна быть логика обработки архива
+    zip_name = os.path.basename(zip_file).rsplit('.')[1]
+    project_path = PATH_TO_SAVE_PROJECTS + zip_name
+    if not os.path.exists(project_path):
+        os.makedirs(project_path)
+    
+    with ZipFile(io.BytesIO(zip_file), 'r') as zip_ref:
+        zip_ref.extractall(project_path)
 
-    report = create_report("report.txt", "Hello world")
+    report = Composer().create_report_for_project(project_path)
     return report
-
 
 # Создание бота и обработка сообщений
 bot = TeleBot(settings.tg_token)
