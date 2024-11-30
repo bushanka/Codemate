@@ -10,7 +10,7 @@ class Settings(BaseSettings):
 
     base_url: str = Field(alias='BASE_URL')
     api_key: str = Field(alias='API_KEY')
-    model_name: str = Field(alias='MODEL_NAME')
+    llm_model_name: str = Field(alias='MODEL_NAME')
     temperature: int = Field(alias='TEMPERATURE')
     max_tokens: int = Field(alias='MAX_TOKENS')
 

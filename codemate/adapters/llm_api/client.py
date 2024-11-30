@@ -19,7 +19,7 @@ class AIClient:
             'Content-Type': 'application/json',
         }
 
-        self.model_name = settings.model_name
+        self.model_name = settings.llm_model_name
         self.max_tokens = settings.max_tokens
         self.temperature = settings.temperature
 

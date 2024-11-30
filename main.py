@@ -1,11 +1,8 @@
 import io
 from zipfile import ZipFile
 
-from decouple import config
+from settings import settings
 from telebot import TeleBot
-
-# Загрузка конфигурации из .env файла
-TOKEN = config('TELEGRAM_TOKEN')
 
 
 def create_report(report_path, contents):
@@ -36,7 +33,7 @@ def process_archive(zip_file):
 
 
 # Создание бота и обработка сообщений
-bot = TeleBot(TOKEN)
+bot = TeleBot(settings.tg_token)
 
 
 @bot.message_handler(content_types=['document'])
