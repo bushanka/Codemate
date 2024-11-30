@@ -1,0 +1,6 @@
+# IDE
+.idea
+
+# evns
+.env
+venv
