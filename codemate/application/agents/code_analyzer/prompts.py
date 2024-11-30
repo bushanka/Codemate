@@ -29,7 +29,9 @@ Provide your analysis in this exact markdown format:
 
 | Line | Issue | Description |
 |------|-------|-------------|
-```'''
+```
+If the provided code is OK, meaning it is in the right place just return empty string. Don't make things up.
+'''
 
 USER_PROMPT_CODE_ANALYZE = '''
 Analyze the following Python code file for architectural violations:
