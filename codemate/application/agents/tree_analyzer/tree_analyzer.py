@@ -2,8 +2,8 @@ import seedir as sd
 
 from codemate.adapters.llm_api.client import AIClient
 from codemate.adapters.llm_api.shemas import Message, AIResponse
-from codemate.agents.base import Agent
-from codemate.agents.tree_analyzer.prompts import SYSTEM_PROMPT_TREE_ANALYZE, USER_PROMPT_TREE_ANALYZE
+from codemate.application.agents.base import Agent
+from codemate.application.agents.tree_analyzer.prompts import SYSTEM_PROMPT_TREE_ANALYZE, USER_PROMPT_TREE_ANALYZE
 
 
 class TreeAnalyzerAgent(Agent):

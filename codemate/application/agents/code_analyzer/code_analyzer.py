@@ -1,7 +1,7 @@
 from codemate.adapters.llm_api.client import AIClient
 from codemate.adapters.llm_api.shemas import Message, AIResponse
-from codemate.agents.base import Agent
-from codemate.agents.code_analyzer.prompts import SYSTEM_PROMPT_CODE_ANALYZE, USER_PROMPT_CODE_ANALYZE
+from codemate.application.agents.base import Agent
+from codemate.application.agents.code_analyzer.prompts import SYSTEM_PROMPT_CODE_ANALYZE, USER_PROMPT_CODE_ANALYZE
 
 
 class CodeAnalyzerAgent(Agent):
