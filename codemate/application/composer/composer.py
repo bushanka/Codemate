@@ -16,15 +16,15 @@ class Composer():
         self._tree_split = TreeSplitAgent()
     
     # analyze architecture
-    def create_report_for_project(self, _path: str) ->str:
+    def create_report_for_project(self, project_dir: str) ->str:
         final_report = ""
 
         # get overall architecture prediction
-        overall_code_analyze = self._tree_analyser.create_report(project_path=_path)
+        overall_code_analyze = self._tree_analyser.create_report(project_path=project_dir)
         
         # find every possible code files to check
         final_report += overall_code_analyze + "\n"
-        list_of_files_in_json_str = self._tree_split.create_report(project_path=_path)
+        list_of_files_in_json_str = self._tree_split.create_report(project_path=project_dir)
         try:
             list_of_files = json.loads(list_of_files_in_json_str)  # Convert JSON string to dictionary
         except ValueError as e:
@@ -33,16 +33,27 @@ class Composer():
         # for every found file analyze its content on architecture standart
         if list_of_files is not None:
             for layer in list_of_files.keys():
-                code_snippets = self._get_functions_and_classes(_path)
-                for code_sn in code_snippets:
-                    architecture_code_analyzer_response = self._code_analyser.create_report(
-                        file_path=_path, 
-                        layer_name=layer, 
-                        code_content=code_sn
-                        )
-                    if architecture_code_analyzer_response != "":
-                        final_report += architecture_code_analyzer_response + "\n"
+                for filepath in list_of_files['layer']:
+                    response = self.create_report_for_file(filepath, layer)
+                    final_report += response + "\n"
 
+        return final_report
+    
+    def create_report_for_file(self, filepath, layer=""):
+        final_report = ""
+        code_snippets = self._get_functions_and_classes(filepath)
+        for c_s in code_snippets:  
+            if layer != "":
+                architecture_code_analyzer_response = self._code_analyser.create_report(
+                    file_path=filepath, 
+                    layer_name=layer, 
+                    code_content=c_s
+                    )
+                if architecture_code_analyzer_response != "":
+                    final_report += architecture_code_analyzer_response + "\n"
+            else:
+                NotImplemented
+                # добавим агентов, которые проверяет код на предмет плохо-написанного мусора
         return final_report
                 
 

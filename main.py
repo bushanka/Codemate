@@ -9,18 +9,9 @@ from .codemate.application.composer import Composer
 
 PATH_TO_SAVE_PROJECTS = "/home/root/hack_projects/"
 
-def create_report(report_path, contents):
-    # Для создания файла репорта, можно править для ваших потребностей
-    with open(report_path, "w") as file:
-        file.write(contents)
-    return report_path
-
-
 # Функция для обработки файлов и создания репортов
 def process_file(file) -> str:
-    # Здесь должна быть логика обработки файла
-    print("Processing file:", file)
-    report = create_report("report.txt", "Hello world")
+    report = report = Composer().create_report_for_file(file)
     return report
 
 
