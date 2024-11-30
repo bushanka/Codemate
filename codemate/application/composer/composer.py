@@ -20,11 +20,11 @@ class Composer():
         final_report = ""
 
         # get overall architecture prediction
-        overall_code_analyze = self._tree_analyser.create_report(project_path=project_dir)
+        overall_code_analyze = self._tree_analyser.create_report(project_path=project_dir).to_text()
         
         # find every possible code files to check
         final_report += overall_code_analyze + "\n"
-        list_of_files_in_json_str = self._tree_split.create_report(project_path=project_dir)
+        list_of_files_in_json_str = self._tree_split.create_report(project_path=project_dir).to_text()
         try:
             list_of_files = json.loads(list_of_files_in_json_str)  # Convert JSON string to dictionary
         except ValueError as e:
@@ -48,7 +48,7 @@ class Composer():
                     file_path=filepath, 
                     layer_name=layer, 
                     code_content=c_s
-                    )
+                    ).to_text()
                 if architecture_code_analyzer_response != "":
                     final_report += architecture_code_analyzer_response + "\n"
             else:

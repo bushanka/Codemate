@@ -36,3 +36,6 @@ class AIResponse(BaseModel):
     choices: List[Choice]
     usage: Usage
     timestamps: Timestamps
+
+    def to_text(self):
+        return self.choices[0].message.content
