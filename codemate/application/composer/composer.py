@@ -1,6 +1,7 @@
 from agents.code_analyzer import CodeAnalyzerAgent
 from agents.tree_analyzer import TreeAnalyzerAgent
 from agents.tree_split import TreeSplitAgent
+from agents.code_optimizer import CodeOptimizerAgent
 
 import json
 import ast
@@ -14,6 +15,7 @@ class Composer():
         self._code_analyser = CodeAnalyzerAgent()
         self._tree_analyser = TreeAnalyzerAgent()
         self._tree_split = TreeSplitAgent()
+        self._code_optimizer = CodeOptimizerAgent()
     
     # analyze architecture
     def create_report_for_project(self, project_dir: str) ->str:
@@ -52,8 +54,13 @@ class Composer():
                 if architecture_code_analyzer_response != "":
                     final_report += architecture_code_analyzer_response + "\n"
             else:
-                NotImplemented
-                # добавим агентов, которые проверяет код на предмет плохо-написанного мусора
+                code_analyzer_response = self._code_optimizer.create_report(
+                    file_path=filepath, 
+                    layer_name=layer, 
+                    code_content=c_s
+                    ).to_text()
+                if code_analyzer_response != "":
+                    final_report += code_analyzer_response + "\n"
         return final_report
                 
 
