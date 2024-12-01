@@ -3,7 +3,6 @@ from zipfile import ZipFile
 import os
 
 from requests import HTTPError
-
 from settings import settings
 from telebot import TeleBot
 from codemate.application.composer.composer import Composer
@@ -56,9 +55,11 @@ def handle_document(message):
             result_report = process_file(downloaded_file)
             r_type = "файл"
 
-        bot.reply_to(message, f"Ваш {r_type} был обработан, результаты прикреплены к сообщению.")
-        with open(result_report, "rb") as report_file:
+        with open('report.md', "wb") as report_file:
+            report_file.write(result_report.encode('utf-8'))
+        with open('report.md', 'rb') as report_file:
             bot.send_document(chat_id=message.chat.id, document=report_file)
+        bot.reply_to(message, f"Ваш {r_type} был обработан, результаты прикреплены к сообщению.")
     except HTTPError as http_e:
         bot.reply_to(message, f"Проблема с моделью - {http_e}")
 
