@@ -1,15 +1,12 @@
-from agents.code_analyzer import CodeAnalyzerAgent
-from agents.tree_analyzer import TreeAnalyzerAgent
-from agents.tree_split import TreeSplitAgent
+from codemate.application.agents.code_analyzer import CodeAnalyzerAgent
+from codemate.application.agents.tree_analyzer import TreeAnalyzerAgent
+from codemate.application.agents.tree_split import TreeSplitAgent
 
 import json
 import ast
 import astor
 
-class Composer():
-    """Должен брать всех агентов в нужной последовательности в зависимости от типа: 1 файл или zip (проект)
-    и execut'ить их код, получать отчеты, сохранять и потом составлять финальный отчет агентом для финального отчета
-    """
+class Composer:
     def __init__(self):
         self._code_analyser = CodeAnalyzerAgent()
         self._tree_analyser = TreeAnalyzerAgent()
@@ -30,7 +27,7 @@ class Composer():
         except ValueError as e:
             list_of_files = None  # Or handle the error appropriately
         
-        # for every found file analyze its content on architecture standart
+        # for every found file analyze its content on architecture standard
         if list_of_files is not None:
             for layer in list_of_files.keys():
                 for filepath in list_of_files['layer']:
@@ -52,23 +49,22 @@ class Composer():
                 if architecture_code_analyzer_response != "":
                     final_report += architecture_code_analyzer_response + "\n"
             else:
-                NotImplemented
+                raise NotImplemented
                 # добавим агентов, которые проверяет код на предмет плохо-написанного мусора
         return final_report
-                
 
     def _get_functions_and_classes(self, file_path):
         with open(file_path, 'r') as file:
             file_content = file.read()
 
         tree = ast.parse(file_content)
-        
+
         functions_and_classes = []
-        
+
         for node in ast.walk(tree):
             if isinstance(node, ast.FunctionDef):
                 functions_and_classes.append(astor.to_source(node))
             elif isinstance(node, ast.ClassDef):
                 functions_and_classes.append(astor.to_source(node))
-        
+
         return functions_and_classes

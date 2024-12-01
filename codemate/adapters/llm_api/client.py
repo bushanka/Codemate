@@ -56,6 +56,18 @@ class AIClient:
             headers=self.headers,
             json=json_data
         )
+        attempts = 30
+        exit_conditions = False
+        while not exit_conditions:
+            response = requests.post(
+                f"{self.base_url}/v1/completions",
+                headers=self.headers,
+                json=json_data
+            )
+            if response.status_code != 200:
+                attempts -= 1
+            if attempts <= 0:
+                exit_conditions = True
         response.raise_for_status()
 
         # Parse the response into our Pydantic model
